@@ -10,10 +10,12 @@ public class ButtonInteraction : MonoBehaviour
 
     public Transform Platform;
 
+    private OrbInteraction OrbInteraction;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        OrbInteraction = GameObject.FindGameObjectWithTag("Player").GetComponent<OrbInteraction>();
     }
 
     // Update is called once per frame
@@ -24,7 +26,7 @@ public class ButtonInteraction : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && OrbInteraction.OrbCount == 4)
         {
             StartCoroutine(LowerAndRaisePlatform());
         }

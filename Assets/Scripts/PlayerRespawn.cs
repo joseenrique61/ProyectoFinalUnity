@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +8,9 @@ public class PlayerRespawn : MonoBehaviour
 {
     public Transform respawnPoint;
     public int lives = 3;
+
+    public TextMeshProUGUI LivesText;
+    public GameObject LosePanel;
 
     private Rigidbody rb;
 
@@ -21,6 +25,7 @@ public class PlayerRespawn : MonoBehaviour
         if (transform.position.y < -10f)
         {
             lives--;
+            LivesText.SetText("Vidas: " + lives);
             Debug.Log("Vidas restantes: " + lives);
 
             if (lives > 0)
@@ -32,8 +37,17 @@ public class PlayerRespawn : MonoBehaviour
             else
             {
                 // Reiniciar la escena
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                StartCoroutine(Restart());
             }
         }
+    }
+
+    public IEnumerator Restart()
+    {
+        LosePanel.SetActive(true);
+
+        yield return new WaitForSeconds(2);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
